@@ -1,0 +1,5 @@
+crypto-oracle-server/
+├── index.js              # Main webhook logic
+├── package.json          # Dependencies and start command
+├── .env.example          # Placeholder for secrets
+├── README.md             # Optional: ritual declaration
