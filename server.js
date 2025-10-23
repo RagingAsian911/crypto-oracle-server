@@ -104,39 +104,3 @@ app.post('/api/moderate-chat', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🔥 Crypto Oracle Webhook running on port ${PORT}`);
 });
-const mockTalentPool = [
-  { name: 'Grace', emotion_tag: 'devotion', seeking: 'sovereign' },
-  { name: 'Nova', emotion_tag: 'chaos', seeking: 'devotion' },
-  { name: 'Eli', emotion_tag: 'sovereign', seeking: 'devotion' }
-];
-
-app.post('/api/matchmake', (req, res) => {
-  const { user_profile } = req.body;
-
-  if (!user_profile || !user_profile.emotion_tag || !user_profile.seeking) {
-    return res.status(400).json({ status: 'error', message: 'Missing profile data' });
-  }
-
-  const matches = mockTalentPool.filter(talent =>
-    talent.emotion_tag === user_profile.seeking ||
-    talent.seeking === user_profile.emotion_tag
-  );
-
-  res.json({
-    status: 'matched',
-    matches: matches.slice(0, 3)
-  });
-});
-app.post('/api/moderate-chat', (req, res) => {
-  const { message, sender_emotion, receiver_emotion } = req.body;
-
-  if (!message || !sender_emotion || !receiver_emotion) {
-    return res.status(400).json({ status: 'error', message: 'Missing chat data' });
-  }
-
-  if (sender_emotion !== receiver_emotion) {
-    return res.json({ status: 'flagged', reason: 'emotional mismatch' });
-  }
-
-  res.json({ status: 'safe' });
-});
