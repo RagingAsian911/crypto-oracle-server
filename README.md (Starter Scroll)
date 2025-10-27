@@ -1,0 +1,18 @@
+# BBW Temple Talent Console
+
+This is the sovereign backend for Charles Buchanan’s adult affiliate content company. It includes:
+
+- Talent intake metafields
+- AI matching engine
+- Excessive ritual broadcast templates
+- Consent + contract tracking
+- Private selection dashboard
+
+To deploy:
+1. Add metafields to Shopify
+2. Upload JSON schemas to GitHub
+3. Connect Liquid templates to your theme
+4. Lock access behind admin-only password
+5. Verify contributor protocols + audit logs
+
+This console is sacred. Treat it as such.
