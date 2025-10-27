@@ -1,0 +1,13 @@
+/bbw-temple-console
+├── README.md
+├── LICENSE
+├── schema/
+│   └── metafields.json
+├── matching/
+│   └── engine.json
+├── broadcasts/
+│   └── summon-template.json
+├── workflows/
+│   └── talent-intake.yml
+├── liquid/
+│   └── talent-dashboard.liquid
