@@ -34,3 +34,41 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+app.post('/api/drop-oneclick', async (req, res) => {
+  const drop = {
+    contributor_id: req.body.contributor_id || "rogue-uuid",
+    emotion_tag: req.body.emotion_tag || "sovereignty",
+    source: req.body.source || "storefronts.oraclesignal.site",
+    index_url: req.body.index_url || "https://oraclesignal.site/vaults/drop",
+    timestamp: new Date().toISOString()
+  };
+
+  // 🔐 ROUTE TO PAYPAL
+  await sendToPayPal("charlesbuchanan89@yahoo.com", "25.00", "USD");
+
+  // 🔁 LOG TO DASHBOARD
+  await logToSupabase(drop);
+
+  // 🔗 INDEX TO VAULT
+  await publishToVault(drop.index_url, drop);
+
+  res.status(200).send({ status: "Drop executed", drop });
+});
+
+function sendToPayPal(email, amount, currency) {
+  console.log(`Routing $${amount} ${currency} to PayPal: ${email}`);
+}
+
+function logToSupabase(data) {
+  console.log("Logged to dashboard:", data);
+}
+
+function publishToVault(url, data) {
+  console.log("Published to vault:", url);
+}
+
+app.listen(3002, () => console.log('One-click drop live on port 3002'));
