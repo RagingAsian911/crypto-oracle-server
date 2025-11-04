@@ -1,1 +1,2 @@
 PAYPAL_EMAIL=charlesbuchanan89@yahoo.com
+python crypto_oracle.py analyze BTC/USDT --timeframes 1h 4h 1d
