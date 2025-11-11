@@ -1,6 +1,6 @@
 {
-  "name": "@ragingasian911/crypto-oracle-server",
-  "version": "1.0.0",
+  "name": "@RagingAsian911/crypto-oracle-server",
+  "version": "1.0.1",// bump this every time
   "description": "Sovereign crypto oracle server with AES decryption, contributor flows, and webhook logic",
   "main": "server.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
