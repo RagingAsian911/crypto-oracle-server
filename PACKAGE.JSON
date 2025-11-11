@@ -33,3 +33,8 @@
 "publishConfig": {
   "registry": "https://registry.npmjs.org"
 }
+- name: Echo package metadata
+  run: |
+    echo "📦 Name: $(jq -r .name package.json)"
+    echo "📦 Version: $(jq -r .version package.json)"
+    echo "📦 Registry: $(npm config get registry)"
