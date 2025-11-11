@@ -11,3 +11,10 @@
     "dotenv": "^16.3.1"
   }
 }
+{
+  "name": "@RagingAsian911/your-package-name",
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
