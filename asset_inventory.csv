@@ -4,3 +4,8 @@ coinbase
 /webhooks
 bconstruction4209
 BBWTEMPLECRYPTO
+File,Status,LastUpdated
+server.js,Repaired,2025-11-11
+package.json,Validated,2025-11-11
+.env,Restored,2025-11-11
+workflow.yml,Hardened,2025-11-11
