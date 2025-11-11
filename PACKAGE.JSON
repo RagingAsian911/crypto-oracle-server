@@ -35,32 +35,36 @@
     "dotenv": "^16.3.1"
   }
 }
-{
-  "name": "@ragingasian911/crypto-oracle-server",
-  "version": "1.0.0",
-  "description": "Sovereign crypto oracle server with AES decryption",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"No tests yet\" && exit 0"
-  },
-  "author": "RagingAsian911",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RagingAsian911/crypto-oracle-server.git"
-  },
-  "keywords": ["crypto", "oracle", "server", "aes", "express"],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "dotenv": "^16.3.1",
-    "body-parser": "^1.20.2"
+const express = require('express');
+const app = express();
+require('dotenv').config();
+const bodyParser = require('body-parser');
+const crypto = require('crypto');
+
+app.use(bodyParser.json());
+
+app.post('/oracle', (req, res) => {
+  const { data, iv } = req.body;
+  const key = Buffer.from(process.env.ORACLE_KEY, 'hex');
+  const ivBuffer = Buffer.from(iv, 'hex');
+
+  try {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, ivBuffer);
+    let decrypted = decipher.update(data, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    res.json({ status: 'success', result: decrypted });
+  } catch (err) {
+    res.status(400).json({ status: 'error', message: 'Decryption failed' });
   }
-}
+});
+
+app.get('/', (req, res) => {
+  res.send('Crypto Oracle Server is running');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
