@@ -28,3 +28,8 @@
     "cors": "^2.8.5"
   }
 }
+"name": "your-package-name",
+"version": "1.0.0",
+"publishConfig": {
+  "registry": "https://registry.npmjs.org"
+}
