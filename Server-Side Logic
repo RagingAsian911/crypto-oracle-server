@@ -1,0 +1,9 @@
+app.post('/checkout', (req, res) => {
+  const contributorId = req.body.contributorId;
+  const productId = req.body.productId;
+  const paypalEmail = process.env.PAYPAL_EMAIL;
+
+  // Log and route payout
+  console.log(`Contributor ${contributorId} triggered payout to ${paypalEmail} for product ${productId}`);
+  res.status(200).json({ status: 'Payout initiated', email: paypalEmail });
+});
