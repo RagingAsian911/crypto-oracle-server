@@ -125,3 +125,15 @@ app.post('/api/system-drop', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🔥 Crypto Oracle Server fully integrated on port ${PORT}`);
 });
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Content-Security-Policy', "frame-ancestors 'none'");
+
+  res.removeHeader('X-XSS-Protection');
+  res.removeHeader('X-Frame-Options');
+  res.removeHeader('X-Runtime');
+
+  next();
+});
