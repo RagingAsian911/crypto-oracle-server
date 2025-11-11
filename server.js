@@ -104,3 +104,43 @@ app.post('/api/moderate-chat', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🔥 Crypto Oracle Webhook running on port ${PORT}`);
 });
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
+
+// Load asset inventory
+const inventoryPath = path.join(__dirname, 'asset_inventory.csv');
+let assetInventory = [];
+if (fs.existsSync(inventoryPath)) {
+  const raw = fs.readFileSync(inventoryPath, 'utf8');
+  assetInventory = raw.split('\n').map(line => line.trim()).filter(Boolean);
+}
+
+// Webhook endpoint
+app.post('/webhooks', (req, res) => {
+  const { event, data } = req.body;
+  if (!event || !data) return res.status(400).json({ error: 'Invalid webhook payload' });
+
+  const log = (label, payload) => {
+    const entry = `[${new Date().toISOString()}] ${label}: ${JSON.stringify(payload)}\n`;
+    fs.appendFileSync('logs.txt', entry);
+  };
+
+  switch (event) {
+    case 'product_update': log('Product update', data); break;
+    case 'payout_trigger': log('Payout trigger', data); break;
+    case 'contributor_onboard': log('Contributor onboarded', data); break;
+    default: log('Unknown event', { event, data });
+  }
+
+  res.status(200).json({ status: 'Webhook processed' });
+});
+
+app.get('/', (req, res) => res.send('Sovereign server is live.'));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
