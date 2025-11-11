@@ -158,3 +158,36 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+const express = require('express');
+const app = express();
+require('dotenv').config();
+const bodyParser = require('body-parser');
+const crypto = require('crypto');
+
+app.use(bodyParser.json());
+
+app.post('/oracle', (req, res) => {
+  const { data, iv } = req.body;
+  const key = Buffer.from(process.env.ORACLE_KEY, 'hex');
+  const ivBuffer = Buffer.from(iv, 'hex');
+
+  try {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, ivBuffer);
+    let decrypted = decipher.update(data, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    res.json({ status: 'success', result: decrypted });
+  } catch (err) {
+    res.status(400).json({ status: 'error', message: 'Decryption failed' });
+  }
+});
+
+app.get('/', (req, res) => {
+  res.send('Crypto Oracle Server is running');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
