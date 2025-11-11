@@ -144,3 +144,17 @@ app.post('/webhooks', (req, res) => {
 
 app.get('/', (req, res) => res.send('Sovereign server is live.'));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const express = require('express');
+const app = express();
+require('dotenv').config();
+
+app.get('/', (req, res) => {
+  res.send('Crypto Oracle Server is running');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
