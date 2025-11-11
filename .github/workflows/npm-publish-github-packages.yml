@@ -71,5 +71,5 @@ function publishToVault(url, data) {
   console.log("Published to vault:", url);
 }
 
-app.listen(3002, () => console.log('One-click drop live on port 3002'));
+app.listen(3000, () => console.log('One-click drop live on port 3000'));
 github/workflows/npm-publish-github-packages.yml
