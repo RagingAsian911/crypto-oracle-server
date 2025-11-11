@@ -1,78 +1,5 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
-name: Node.js Package
-
-on:
-  release:
-    types: [created]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm test
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-const express = require('express');
-const app = express();
-app.use(express.json());
-
-app.post('/api/drop-oneclick', async (req, res) => {
-  const drop = {
-    contributor_id: req.body.contributor_id || "rogue-uuid",
-    emotion_tag: req.body.emotion_tag || "sovereignty",
-    source: req.body.source || "storefronts.oraclesignal.site",
-    index_url: req.body.index_url || "https://oraclesignal.site/vaults/drop",
-    timestamp: new Date().toISOString()
-  };
-
-  // 🔐 ROUTE TO PAYPAL
-  await sendToPayPal("charlesbuchanan89@yahoo.com", "25.00", "USD");
-
-  // 🔁 LOG TO DASHBOARD
-  await logToSupabase(drop);
-
-  // 🔗 INDEX TO VAULT
-  await publishToVault(drop.index_url, drop);
-
-  res.status(200).send({ status: "Drop executed", drop });
-});
-
-function sendToPayPal(email, amount, currency) {
-  console.log(`Routing $${amount} ${currency} to PayPal: ${email}`);
-}
-
-function logToSupabase(data) {
-  console.log("Logged to dashboard:", data);
-}
-
-function publishToVault(url, data) {
-  console.log("Published to vault:", url);
-}
-
-app.listen(3000, () => console.log('One-click drop live on port 3000'));
-github/workflows/npm-publish-github-packages.yml
 name: Publish Package
 
 on:
@@ -97,3 +24,4 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
