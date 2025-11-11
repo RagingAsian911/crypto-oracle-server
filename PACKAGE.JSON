@@ -1,57 +1,7 @@
 {
-  "name": "crypto-oracle-server",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1"
-  }
-}
-{
-  "name": "@RagingAsian911/your-package-name",
-  "version": "1.0.0",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  }
-}
-{
-  "name": "@RagingAsian911/crypto-oracle-server",
-  "version": "1.0.0",
-  "description": "Sovereign webhook server for product updates and contributor flows",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1"
-  }
-}
-const express = require('express');
-const app = express();
-require('dotenv').config();
-const bodyParser = require('body-parser');
-const crypto = require('crypto');
-
-app.use(bodyParser.json());
-
-app.post('/oracle', (req, res) => {
-  const { data, iv } = req.body;
-  const key = Buffer.from(process.env.ORACLE_KEY, 'hex');
-  const ivBuffer = Buffer.from(iv, 'hex');
-
-{
   "name": "@ragingasian911/crypto-oracle-server",
   "version": "1.0.0",
-  "description": "Sovereign crypto oracle server with AES decryption",
+  "description": "Sovereign crypto oracle server with AES decryption, product updates, and contributor flows",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -67,13 +17,25 @@ app.post('/oracle', (req, res) => {
     "type": "git",
     "url": "https://github.com/RagingAsian911/crypto-oracle-server.git"
   },
-  "keywords": ["crypto", "oracle", "server", "aes", "express"],
+  "keywords": [
+    "crypto",
+    "oracle",
+    "server",
+    "aes",
+    "express",
+    "webhook",
+    "contributor",
+    "product",
+    "sovereign"
+  ],
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "express": "^4.18.2",
+    "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
-    "body-parser": "^1.20.2"
+    "cors": "^2.8.5",
+    "fs": "0.0.1-security"
   }
 }
