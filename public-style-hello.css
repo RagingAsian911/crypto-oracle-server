@@ -1,0 +1,8 @@
+<!-- BAD -->
+<div style="color: red;">Hello</div>
+
+<!-- GOOD -->
+<style>
+  .alert { color: red; }
+</style>
+<div class="alert">Hello</div>
