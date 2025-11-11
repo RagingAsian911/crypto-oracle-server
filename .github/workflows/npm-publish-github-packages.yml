@@ -22,3 +22,7 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+env:
+  ORACLE_KEY: ${{ secrets.ORACLE_KEY }}
+  PAYPAL_EMAIL: ${{ secrets.PAYPAL_EMAIL }}
+  PORT: ${{ secrets.PORT }}
