@@ -1,0 +1,9 @@
+- name: Publish with fallback and log dump
+  run: |
+    npm publish --access public || {
+      echo "❌ Publish failed. Dumping logs:"
+      cat ~/.npm/_logs/* || echo "No logs found"
+      exit 1
+    }
+  env:
+    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
