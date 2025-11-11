@@ -51,3 +51,4 @@ sha256sum "/tmp/business_bundle_${TS}.tar.gz" > "/tmp/business_bundle_${TS}.sha2
 echo "Done. Inventory: $INV"
 echo "Patch files: $OUT/patches/*.patch"
 echo "Evidence bundle: /tmp/business_bundle_${TS}.tar.gz"
+inventory_and_patch.sh
