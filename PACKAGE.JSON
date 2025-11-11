@@ -1,20 +1,17 @@
 {
-  "name": "crypto-oracle-server",
+  "name": "@RagingAsian911/crypto-oracle-server",
   "version": "1.0.0",
+  "description": "Sovereign webhook server for product updates and contributor flows",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
     "express": "^4.18.2",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1"
-  }
-}
-{
-  "name": "@RagingAsian911/your-package-name",
-  "version": "1.0.0",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
