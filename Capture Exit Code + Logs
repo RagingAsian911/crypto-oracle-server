@@ -1,0 +1,12 @@
+- name: Publish with exit code capture
+  run: |
+    set -e
+    echo "📦 Attempting publish..."
+    npm publish --access public || {
+      echo "❌ Publish failed with exit code $?"
+      echo "📄 Dumping logs:"
+      cat ~/.npm/_logs/* || echo "No logs found"
+      exit 1
+    }
+  env:
+    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
