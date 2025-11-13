@@ -34,3 +34,25 @@ env:
   ORACLE_KEY: ${{ secrets.ORACLE_KEY }}
   PAYPAL_EMAIL: ${{ secrets.PAYPAL_EMAIL }}
   PORT: ${{ secrets.PORT }}
+name: Crypto Oracle Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Start
+        run: node server/index.js
