@@ -1,40 +1,4 @@
-- name: Log environment
-  run: |
-    echo "Node version: $(node -v)"
-    echo "NPM version: $(npm -v)"
-    echo "Registry: $(npm config get registry)"
-- name: Publish with fallback and log dump
-  run: |
-    npm publish --access public || {
-      echo "❌ Publish failed. Dumping logs:"
-      cat ~/.npm/_logs/* || echo "No logs found"
-      exit 1
-    }
-  env:
-    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-permissions:
-  id-token: write
-  contents: read
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-env:
-  ORACLE_KEY: ${{ secrets.ORACLE_KEY }}
-  PAYPAL_EMAIL: ${{ secrets.PAYPAL_EMAIL }}
-  PORT: ${{ secrets.PORT }}
-name: Crypto Oracle Deploy
+name: Publish to GitHub Packages
 
 on:
   push:
@@ -42,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -50,9 +14,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install
         run: yarn install
       - name: Build
         run: yarn build
-      - name: Start
-        run: node server/index.js
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
