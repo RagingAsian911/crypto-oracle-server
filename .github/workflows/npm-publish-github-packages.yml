@@ -18,7 +18,9 @@ jobs:
   registry-url: 'https://npm.pkg.github.com/'
 ...
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
 
           registry-url: 'https://registry.npmjs.org'
       - name: Install
