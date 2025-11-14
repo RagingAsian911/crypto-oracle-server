@@ -40,3 +40,7 @@ jobs:
     defaults:
       run:
         working-directory: ./crypto-oracle-server
+- name: Checkout code
+  uses: actions/checkout@v4
+  with:
+    path: .
