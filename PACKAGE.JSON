@@ -1,5 +1,5 @@
 "name": "@ragingasian911/bbw-temple-site",
-"version": "1.0.0", // bump this for every publish
+"version": "1.0.1", // bump this for every publish
 "main": "MAIN.JS",
 "files": ["MAIN.JS", "server/", "index.html"],
 "publishConfig": {
@@ -22,3 +22,5 @@
 "publishConfig": {
   "registry": "https://npm.pkg.github.com/"
 }
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
