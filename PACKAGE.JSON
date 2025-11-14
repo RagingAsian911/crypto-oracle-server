@@ -17,3 +17,10 @@
 "publishConfig": {
   "registry": "https://npm.pkg.github.com/"
 }
+"name": "@ragingasian911/bbw-temple-site",
+"version": "1.0.0",
+"main": "MAIN.JS",
+"files": ["MAIN.JS", "server/", "index.html"],
+"publishConfig": {
+  "registry": "https://npm.pkg.github.com/"
+}
