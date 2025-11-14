@@ -2,3 +2,4 @@ on:
   push:
     branches:
       - main
+registry-url: 'https://npm.pkg.github.com/'
