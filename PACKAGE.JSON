@@ -1,13 +1,11 @@
-"name": "@ragingasian911/bbw-temple-site"
-{
-  "name": "crypto-oracle-server",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "build": "echo 'No build step required'",
-    "publish": "npm publish --access public"
-  },
+"name": "@ragingasian911/bbw-temple-site",
+"version": "1.0.0", // bump this for every publish
+"main": "MAIN.JS",
+"files": ["MAIN.JS", "server/", "index.html"],
+"publishConfig": {
+  "registry": "https://npm.pkg.github.com/"
+}
+
   "dependencies": {
     "express": "^4.18.2",
     "dotenv": "^16.3.1",
