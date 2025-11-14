@@ -1,0 +1,3 @@
+git checkout ls--l-asset_inventory.csv
+ls -l
+cat asset_inventory.csv
