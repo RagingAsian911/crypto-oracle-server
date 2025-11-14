@@ -7,3 +7,4 @@
     }
   env:
     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+"files": ["MAIN.JS", "server/", "index.html"]
