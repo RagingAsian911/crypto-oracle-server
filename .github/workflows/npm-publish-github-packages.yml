@@ -8,6 +8,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./crypto-oracle-server
 
     permissions:
       contents: read
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -34,13 +39,3 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: npm publish
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./crypto-oracle-server
-- name: Checkout code
-  uses: actions/checkout@v4
-  with:
-    path: .
