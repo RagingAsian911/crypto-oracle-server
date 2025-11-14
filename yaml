@@ -3,3 +3,9 @@ on:
     branches:
       - main
 registry-url: 'https://npm.pkg.github.com/'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./crypto-oracle-server
