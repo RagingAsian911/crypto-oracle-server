@@ -3,24 +3,20 @@ name: Publish to GitHub Packages
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-
-jobs:
+  workflow_dispatch:jobs:
   publish:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./crypto-oracle-server
+        working-directory: ./crypto-oracle-server/crypto-oracle-server
 
     permissions:
       contents: read
       packages: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          path: .
+- name: Checkout code
+  uses: actions/checkout@v4
+  with:
+    path: ./crypto-oracle-server
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
