@@ -1,3 +1,16 @@
 git checkout ls--l-asset_inventory.csv
 ls -l
 cat asset_inventory.csv
+- name: Send audit event
+  run: |
+    PAYLOAD=$(jq -n \
+      --arg src "github-actions" \
+      --arg act "deploy:started" \
+      --arg res "crypto-oracle-server" \
+      '{source:$src, action:$act, resource:$res}')
+    HMAC=$(echo $PAYLOAD | openssl dgst -sha256 -hmac "$AUDIT_SECRET" -hex | awk '{print $NF}')
+    PAYLOAD=$(echo $PAYLOAD | jq --arg h "$HMAC" '. + {hmac:$h}')
+    curl -X POST "$LOG_API/event" -H "Content-Type: application/json" -d "$PAYLOAD"
+  env:
+    LOG_API: ${{ secrets.LOG_API }}
+    AUDIT_SECRET: ${{ secrets.AUDIT_SECRET }}
