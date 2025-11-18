@@ -13,4 +13,30 @@ cat asset_inventory.csv
     curl -X POST "$LOG_API/event" -H "Content-Type: application/json" -d "$PAYLOAD"
   env:
     LOG_API: ${{ secrets.LOG_API }}
-    AUDIT_SECRET: ${{ secrets.AUDIT_SECRET }}
+    AUDIT_SECRET: ${{ secrets.AUDIT_SECRET }}name: Export Audit Logs
+on:
+  schedule:
+    - cron: "0 5 * * *"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install DuckDB
+        run: |
+          wget https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-amd64.zip
+          unzip duckdb_cli-linux-amd64.zip
+      - name: Download NDJSON
+        run: |
+          curl -o audit.ndjson "$R2_PUBLIC_URL/audit/$(date -u +'%Y-%m-%d').ndjson"
+      - name: Export CSV
+        run: |
+          ./duckdb -c "
+            CREATE TABLE events AS SELECT * FROM read_ndjson_auto('audit.ndjson');
+            COPY events TO 'audit.csv' (HEADER);
+          "
+      - name: Upload CSV artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-daily
+          path: audit.csv
