@@ -38,4 +38,9 @@ jobs:
       - name: Publish to GitHub Packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-        run: npm publish
+        run: npm publish    git checkout -b main-production
+git checkout -b dev
+git checkout -b sandbox
+git push -u origin main-production
+git push -u origin dev
+git push -u origin sandbox
