@@ -144,4 +144,52 @@ const app = express();
 app.get('/', (req, res) => res.send('Crypto Oracle Server Running'));
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));// server.js - simple, production-ready Express + rate-limit + basic auth middleware
+require('dotenv').config();
+const express = require('express');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+const app = express();
+app.use(helmet());
+app.use(express.json());
+app.use(morgan('combined'));
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: parseInt(process.env.RATE_LIMIT || "60"),
+});
+app.use(limiter);
+
+// Auth middleware (API key)
+app.use((req, res, next) => {
+  const key = req.header('x-api-key') || req.query.api_key;
+  if (!key || key !== process.env.API_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+});
+
+// Health
+app.get('/health', (req, res) => res.json({ ok: true, ts: Date.now() }));
+
+// Example endpoint - price prediction
+app.post('/v1/predict', async (req, res) => {
+  try {
+    const { symbol, horizon = '1h' } = req.body;
+    // placeholder: replace with your oracle logic or model call
+    const predicted = Math.random() * 100; 
+    res.json({
+      symbol,
+      horizon,
+      prediction: predicted,
+      timestamp: Date.now()
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'internal_error', details: err.message });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Oracle server running on ${PORT}`));
