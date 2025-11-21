@@ -7,4 +7,4 @@ SHOPIFY_STORE=wv9ik4-y2.myshopify.com
 •	R2_ENDPOINT
 	•	AWS_ACCESS_KEY_ID
 	•	AWS_SECRET_ACCESS_KEYSHOPIFY_TOKEN=shpss_62d1ed0ac1e493ce3113 Add short docs describing /v1/predict, API key usage, rate limits, sample curl. Add simple CSS and pages: api-docs.html, products.html, signup.html, trust.html, contact.html. Host on Verpex or GitHub Pages, point domain via Cloudflare.
-
+npm installnpm start
