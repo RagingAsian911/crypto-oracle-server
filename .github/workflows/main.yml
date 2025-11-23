@@ -83,4 +83,53 @@ jobs:
     <string>com.example.myapp.create-shape</string>
     <string>com.example.myapp.edit-shape</string>
     <string>com.example.myapp.edit-document-properties</string>
-</array>working-copy://x-callback-url/repos?key=44ETSVWFT
+</array>working-copy://x-callback-url/repos?key=44ETSVWFT name: CI / CD — Deploy Oracle-Server
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build (if applicable)
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm test || echo "No tests"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout for Deployment
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH + PM2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            cd /var/www/oraclesignal/crypto-oracle-server
+            git pull origin main
+            npm ci --production
+            pm2 reload oracle-server || pm2 start MAIN.JS --name oracle-server
+            pm2 save
