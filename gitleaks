@@ -1,0 +1,9 @@
+# Ubuntu / Debian
+curl -sSfL https://raw.githubusercontent.com/zricethezav/gitleaks/master/install.sh | bash
+
+# or via apt (if available) or use binary from releases # scan the main repo folder (example paths)
+gitleaks detect --source /var/www/oraclesignal/crypto-oracle-server --report-path /tmp/gitleaks_oracle_report.json
+gitleaks detect --source /var/www/oraclesignal/bbw-temple-site --report-path /tmp/gitleaks_bbwt_report.json
+gitleaks detect --source /var/www/oraclesignal/express-hello-world --report-path /tmp/gitleaks_express_report.json jq '.leaks | length' /tmp/gitleaks_oracle_report.json || echo "No leaks or jq not installed" # Example neutralize (non-destructive) script found in repo
+cd /var/www/oraclesignal/crypto-oracle-server
+bash inventory_and_neutralize.sh
