@@ -1,0 +1,40 @@
+name: One-Click Pages Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+env:
+  BRANDING_PDF: Build_X_FULL_package.pdf
+  LOG_API: ${{ secrets.LOG_API }}
+  AUDIT_SECRET: ${{ secrets.AUDIT_SECRET }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install & Build Site
+        run: |
+          npm ci || true
+          npm run build || true
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/deploy-pages@v4
